@@ -2,7 +2,7 @@ services:
   - type: web
     name: ai-task-backend
     env: docker
-    dockerfilePath: ./ai-task-backend/Dockerfile
+    rootDir: ./ai-task-backend
     plan: free
     envVars:
       - key: MONGO_URI
@@ -15,7 +15,7 @@ services:
   - type: worker
     name: ai-task-worker
     env: docker
-    dockerfilePath: ./ai-task-backend/worker/Dockerfile
+    rootDir: ./ai-task-backend/worker
     plan: free
     envVars:
       - key: MONGO_URI
