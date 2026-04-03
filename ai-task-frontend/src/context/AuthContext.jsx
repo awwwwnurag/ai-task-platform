@@ -20,22 +20,36 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   const login = async (email, password) => {
-    const res = await axios.post(`${API_URL}/auth/login`, { email, password });
-    if (res.data.success) {
-      setToken(res.data.token);
-      localStorage.setItem('token', res.data.token);
-      setUser({ email }); 
-      navigate('/dashboard');
+    try {
+      const res = await axios.post(`${API_URL}/auth/login`, { email, password });
+      if (res.data.success) {
+        setToken(res.data.token);
+        localStorage.setItem('token', res.data.token);
+        setUser({ email }); 
+        navigate('/dashboard');
+      } else {
+        alert('Login failed: ' + (res.data.message || 'Unknown error'));
+      }
+    } catch (err) {
+      alert('Login Error: ' + (err.response?.data?.message || err.message));
+      console.error(err);
     }
   };
 
   const signup = async (email, password) => {
-    const res = await axios.post(`${API_URL}/auth/register`, { email, password });
-    if (res.data.success) {
-      setToken(res.data.token);
-      localStorage.setItem('token', res.data.token);
-      setUser({ email });
-      navigate('/dashboard');
+    try {
+      const res = await axios.post(`${API_URL}/auth/register`, { email, password });
+      if (res.data.success) {
+        setToken(res.data.token);
+        localStorage.setItem('token', res.data.token);
+        setUser({ email });
+        navigate('/dashboard');
+      } else {
+        alert('Signup failed: ' + (res.data.message || 'Unknown error'));
+      }
+    } catch (err) {
+      alert('Signup Error: ' + (err.response?.data?.message || err.message));
+      console.error(err);
     }
   };
 
