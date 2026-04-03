@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -18,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   const login = async (email, password) => {
-    const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+    const res = await axios.post(`${API_URL}/auth/login`, { email, password });
     if (res.data.success) {
       setToken(res.data.token);
       localStorage.setItem('token', res.data.token);
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signup = async (email, password) => {
-    const res = await axios.post('http://localhost:5000/api/auth/register', { email, password });
+    const res = await axios.post(`${API_URL}/auth/register`, { email, password });
     if (res.data.success) {
       setToken(res.data.token);
       localStorage.setItem('token', res.data.token);

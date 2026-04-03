@@ -3,6 +3,8 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import TaskModal from '../components/TaskModal';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const Dashboard = () => {
   const { logout } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
@@ -14,7 +16,7 @@ const Dashboard = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/tasks');
+      const res = await axios.get(`${API_URL}/tasks`);
       if (res.data.success) setTasks(res.data.data);
       // Automatically refresh the open modal info if the task is actively viewed
       setSelectedTask(prev => {
@@ -37,7 +39,7 @@ const Dashboard = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await axios.post('http://localhost:5000/api/tasks', {
+      await axios.post(`${API_URL}/tasks`, {
         title,
         input_text: inputText,
         operation
