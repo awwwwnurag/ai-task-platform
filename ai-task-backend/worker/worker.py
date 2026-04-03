@@ -9,11 +9,17 @@ from dotenv import load_dotenv
 load_dotenv(dotenv_path='../.env')
 
 # Connect to Redis
-redis_client = redis.Redis(
-    host=os.getenv("REDIS_HOST", "127.0.0.1"),
-    port=int(os.getenv("REDIS_PORT", 6379)),
-    decode_responses=True
-)
+redis_url = os.getenv("REDIS_URL")
+if redis_url:
+    # Upstash natively uses rediss:// format which handles SSL and passwords structurally
+    redis_client = redis.Redis.from_url(redis_url, decode_responses=True)
+else:
+    redis_client = redis.Redis(
+        host=os.getenv("REDIS_HOST", "127.0.0.1"),
+        port=int(os.getenv("REDIS_PORT", 6379)),
+        password=os.getenv("REDIS_PASSWORD", None),
+        decode_responses=True
+    )
 
 # Connect to MongoDB
 mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/ai-tasks")
