@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app_network
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./ai-task-backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/ai-tasks
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=supersecretjwtkeythatshouldbechangedinproduction
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - app_network
+
+  worker:
+    build:
+      context: ./ai-task-backend/worker
+      dockerfile: Dockerfile
+    container_name: python-worker
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/ai-tasks
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - backend
+      - mongodb
+      - redis
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./ai-task-frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+volumes:
+  mongo_data:
+
+
+networks:
+  app_network:
+    driver: bridge

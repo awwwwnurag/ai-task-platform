@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-task-config
+  namespace: ai-platform
+data:
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  PORT: "5000"
