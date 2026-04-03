@@ -1,0 +1,45 @@
+services:
+  - type: redis
+    name: ai-task-redis
+    plan: free
+    maxmemoryPolicy: noeviction
+
+  - type: web
+    name: ai-task-backend
+    env: docker
+    dockerfilePath: ./ai-task-backend/Dockerfile
+    plan: free
+    envVars:
+      - key: MONGO_URI
+        value: "mongodb+srv://aianurag_db_user:Anuragg2508@cluster98.2spqwg5.mongodb.net/ai-tasks?appName=Cluster98"
+      - key: REDIS_HOST
+        fromService:
+          type: redis
+          name: ai-task-redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: ai-task-redis
+          property: port
+      - key: JWT_SECRET
+        generateValue: true
+
+  - type: worker
+    name: ai-task-worker
+    env: docker
+    dockerfilePath: ./ai-task-backend/worker/Dockerfile
+    plan: free
+    envVars:
+      - key: MONGO_URI
+        value: "mongodb+srv://aianurag_db_user:Anuragg2508@cluster98.2spqwg5.mongodb.net/ai-tasks?appName=Cluster98"
+      - key: REDIS_HOST
+        fromService:
+          type: redis
+          name: ai-task-redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: ai-task-redis
+          property: port
