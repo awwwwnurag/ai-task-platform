@@ -15,6 +15,12 @@ const TaskSchema = new mongoose.Schema({
     enum: ['uppercase', 'lowercase', 'reverse string', 'word count', 'ai_prompt'],
     required: true,
   },
+  agent: {
+    type: String,
+    enum: ['openai', 'anthropic', 'gemini', 'llama3'],
+    default: 'gemini',
+    required: true,
+  },
   status: {
     type: String,
     enum: ['pending', 'running', 'success', 'failed'],

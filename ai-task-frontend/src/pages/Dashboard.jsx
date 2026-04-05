@@ -7,7 +7,9 @@ const API_URL = import.meta.env.VITE_API_URL || 'https://ai-task-backend-xt0g.on
 const Dashboard = () => {
   const { logout } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
+  const [title, setTitle] = useState('');
   const [inputText, setInputText] = useState('');
+  const [agent, setAgent] = useState('openai');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('theme');
@@ -44,11 +46,14 @@ const Dashboard = () => {
     setIsSubmitting(true);
     try {
       await axios.post(`${API_URL}/tasks`, {
-        title: "AI Prompt",
+        title,
         input_text: inputText,
-        operation: "ai_prompt"
+        operation: "ai_prompt",
+        agent
       });
+      setTitle('');
       setInputText('');
+      setAgent('openai');
       fetchTasks();
     } catch (error) {
       console.error('Task submission failed:', error);
@@ -106,6 +111,13 @@ const Dashboard = () => {
         <div className="glass-panel" style={{ padding: '30px' }}>
           <h3 className="mb-4">Create AI Prompt</h3>
           <form onSubmit={handleSubmit}>
+            <input 
+              className="input-field mb-4" 
+              placeholder="Task Name" 
+              value={title} 
+              onChange={e => setTitle(e.target.value)} 
+              required 
+            />
             <textarea 
               className="input-field mb-4" 
               placeholder="Enter your AI Prompt here..." 
@@ -115,6 +127,17 @@ const Dashboard = () => {
               rows="5"
               style={{ resize: 'vertical' }}
             />
+            <select 
+              className="input-field mb-4" 
+              value={agent} 
+              onChange={e => setAgent(e.target.value)}
+              style={{ cursor: 'pointer' }}
+            >
+              <option value="openai">OpenAI</option>
+              <option value="anthropic">Anthropic</option>
+              <option value="gemini">Gemini</option>
+              <option value="llama3">Llama 3</option>
+            </select>
             <button type="submit" className="btn-primary" disabled={isSubmitting}>
               {isSubmitting ? 'Processing...' : 'Submit Prompt'}
             </button>
@@ -150,7 +173,11 @@ const Dashboard = () => {
                    </div>
                    
                    <div style={{ background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '8px', border: '1px solid var(--glass-border)' }}>
-                     <strong>Input: </strong> {task.input_text}
+                     <strong>Task Name: </strong> {task.title}
+                     <br/>
+                     <strong>Agent: </strong> <span style={{textTransform: 'capitalize'}}>{task.agent || 'Gemini'}</span>
+                     <hr style={{ borderColor: 'var(--glass-border)', margin: '10px 0' }}/>
+                     <strong>Prompt: </strong> {task.input_text}
                    </div>
                    
                    {task.status === 'success' && (

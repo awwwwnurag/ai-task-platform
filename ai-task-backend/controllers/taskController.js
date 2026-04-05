@@ -6,10 +6,10 @@ const redisClient = require('../config/redis');
 // @access  Private
 exports.createTask = async (req, res) => {
   try {
-    const { title, input_text, operation } = req.body;
+    const { title, input_text, operation, agent } = req.body;
 
-    if (!title || !input_text || !operation) {
-      return res.status(400).json({ success: false, message: 'Please provide title, input_text, and operation' });
+    if (!title || !input_text || !operation || !agent) {
+      return res.status(400).json({ success: false, message: 'Please provide title, input_text, operation, and agent' });
     }
 
     const validOperations = ['uppercase', 'lowercase', 'reverse string', 'word count', 'ai_prompt'];
@@ -22,6 +22,7 @@ exports.createTask = async (req, res) => {
       title,
       input_text,
       operation,
+      agent,
       status: 'pending',
       user: req.user._id,
     });
