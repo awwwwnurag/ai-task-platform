@@ -5,7 +5,6 @@ services:
     rootDir: ./ai-task-frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
-    plan: free
 
   - type: web
     name: ai-task-backend
