@@ -111,33 +111,45 @@ const Dashboard = () => {
         <div className="glass-panel" style={{ padding: '30px' }}>
           <h3 className="mb-4">Create AI Prompt</h3>
           <form onSubmit={handleSubmit}>
-            <input 
-              className="input-field mb-4" 
-              placeholder="Task Name" 
-              value={title} 
-              onChange={e => setTitle(e.target.value)} 
-              required 
-            />
-            <textarea 
-              className="input-field mb-4" 
-              placeholder="Enter your AI Prompt here..." 
-              value={inputText} 
-              onChange={e => setInputText(e.target.value)} 
-              required 
-              rows="5"
-              style={{ resize: 'vertical' }}
-            />
-            <select 
-              className="input-field mb-4" 
-              value={agent} 
-              onChange={e => setAgent(e.target.value)}
-              style={{ cursor: 'pointer' }}
-            >
-              <option value="openai">OpenAI</option>
-              <option value="anthropic">Anthropic</option>
-              <option value="gemini">Gemini</option>
-              <option value="llama3">Llama 3</option>
-            </select>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Task Name</label>
+              <input 
+                className="input-field" 
+                placeholder="e.g. Generate Image" 
+                value={title} 
+                onChange={e => setTitle(e.target.value)} 
+                required 
+                style={{ marginBottom: 0 }}
+              />
+            </div>
+            
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Task Prompt</label>
+              <textarea 
+                className="input-field" 
+                placeholder="Enter your detailed AI Prompt here..." 
+                value={inputText} 
+                onChange={e => setInputText(e.target.value)} 
+                required 
+                rows="4"
+                style={{ resize: 'vertical', marginBottom: 0 }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '25px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Agent Selection</label>
+              <select 
+                className="input-field" 
+                value={agent} 
+                onChange={e => setAgent(e.target.value)}
+                style={{ cursor: 'pointer', marginBottom: 0 }}
+              >
+                <option value="openai">OpenAI</option>
+                <option value="anthropic">Anthropic</option>
+                <option value="gemini">Gemini</option>
+                <option value="llama3">Llama 3</option>
+              </select>
+            </div>
             <button type="submit" className="btn-primary" disabled={isSubmitting}>
               {isSubmitting ? 'Processing...' : 'Submit Prompt'}
             </button>
