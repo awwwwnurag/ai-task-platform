@@ -91,21 +91,33 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', padding: '20px', overflow: 'hidden' }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 40px', maxWidth: '1300px', margin: '0 auto', animation: 'slideInRight 0.8s ease-out' }}>
-        <h2 style={{ textShadow: '0 0 15px rgba(143,148,251,0.5)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--color-bg1)' }}>
+      {/* Navigation Bar */}
+      <nav style={{ padding: '15px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(10px)', borderBottom: '1px solid var(--glass-border)', position: 'sticky', top: 0, zIndex: 100 }}>
+        <h2 style={{ textShadow: '0 0 15px rgba(143,148,251,0.5)', display: 'flex', alignItems: 'center', gap: '10px', margin: 0 }}>
           <span style={{ fontSize: '1.5rem' }}>✨</span> AI Tasks
         </h2>
-        <div style={{ display: 'flex', gap: '15px' }}>
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
           <button 
             onClick={() => setIsDarkMode(!isDarkMode)} 
             className="btn-primary" 
-            style={{ padding: '8px 16px', background: 'transparent', border: '1px solid var(--primary)', borderRadius: '20px', color: 'var(--text-main)' }}>
-            {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+            title="Toggle Theme"
+            style={{ padding: '8px 12px', background: 'transparent', border: '1px solid var(--primary)', borderRadius: '20px', color: 'var(--text-main)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {isDarkMode ? '☀️' : '🌙'}
           </button>
-          <button onClick={logout} className="btn-primary" style={{ padding: '8px 24px', width: 'auto', background: 'transparent', border: '1px solid var(--primary)', borderRadius: '20px' }}>Logout</button>
+          <button onClick={logout} className="btn-primary" style={{ padding: '8px 20px', width: 'auto', background: 'transparent', border: '1px solid var(--accent)', color: 'var(--accent)', borderRadius: '20px', fontSize: '0.9rem' }}>
+            Logout
+          </button>
         </div>
-      </header>
+      </nav>
+
+      {/* Hero Banner */}
+      <div style={{ padding: '60px 20px', textAlign: 'center', animation: 'floatEntrance 0.8s ease-out' }}>
+        <h1 style={{ fontSize: '3rem', marginBottom: '15px', textShadow: '0 0 20px var(--shadow-glow)' }}>Welcome to AI Tasks Platform</h1>
+        <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto' }}>
+          Execute seamless AI commands spanning across OpenAI, Anthropic, Gemini, and Llama 3 models all from one streamlined dashboard!
+        </p>
+      </div>
       
       <div className="dashboard-container">
         <div className="glass-panel" style={{ padding: '30px' }}>
@@ -214,6 +226,12 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer style={{ marginTop: 'auto', padding: '30px', textAlign: 'center', borderTop: '1px solid var(--glass-border)', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+        <p>&copy; {new Date().getFullYear()} AI Tasks Platform. All Rights Reserved.</p>
+        <p style={{ marginTop: '5px' }}>Powered by advanced LLM Agents.</p>
+      </footer>
     </div>
   );
 };
