@@ -145,6 +145,19 @@ def process_task(task_data):
         except Exception as inner_e:
             print(f"Failed to update task to failed state: {inner_e}")
 
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+def run_dummy_server():
+    port = int(os.environ.get("PORT", 8080))
+    class DummyHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"Worker is running")
+    server = HTTPServer(('0.0.0.0', port), DummyHandler)
+    server.serve_forever()
+
 def main():
     print("Python Worker started. Listening on 'ai-task-queue'...")
     while True:
@@ -159,4 +172,5 @@ def main():
             time.sleep(1)
 
 if __name__ == "__main__":
+    threading.Thread(target=run_dummy_server, daemon=True).start()
     main()

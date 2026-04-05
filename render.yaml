@@ -19,7 +19,7 @@ services:
       - key: JWT_SECRET
         generateValue: true
 
-  - type: worker
+  - type: web
     name: ai-task-worker
     env: docker
     rootDir: ./ai-task-backend/worker
