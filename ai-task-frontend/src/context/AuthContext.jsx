@@ -14,10 +14,22 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      fetchUser();
     } else {
       delete axios.defaults.headers.common['Authorization'];
     }
   }, [token]);
+
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/auth/me`);
+      if (res.data.success) {
+        setUser(res.data.data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch user:', err);
+    }
+  };
 
   const login = async (email, password) => {
     try {
@@ -36,13 +48,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (email, password) => {
+  const signup = async (name, email, password) => {
     try {
-      const res = await axios.post(`${API_URL}/auth/register`, { email, password });
+      const res = await axios.post(`${API_URL}/auth/register`, { name, email, password });
       if (res.data.success) {
         setToken(res.data.token);
         localStorage.setItem('token', res.data.token);
-        setUser({ email });
+        setUser({ name, email });
         navigate('/dashboard');
       } else {
         alert('Signup failed: ' + (res.data.message || 'Unknown error'));
@@ -61,7 +73,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, setUser, token, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );

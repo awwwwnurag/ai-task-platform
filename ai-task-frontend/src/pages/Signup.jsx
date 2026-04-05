@@ -3,13 +3,19 @@ import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 const Signup = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const { signup } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signup(email, password);
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+    signup(name, email, password);
   };
 
   return (
@@ -18,6 +24,14 @@ const Signup = () => {
         <h2 className="text-center mb-2">Create Account</h2>
         <p className="text-center text-muted mb-4">Join the real-time AI Task Platform</p>
         <form onSubmit={handleSubmit}>
+          <input
+            className="input-field"
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
           <input
             className="input-field"
             type="email"
@@ -32,6 +46,14 @@ const Signup = () => {
             placeholder="Password (min 6 chars)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <input
+            className="input-field"
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
           <button type="submit" className="btn-primary" style={{ marginTop: '20px' }}>

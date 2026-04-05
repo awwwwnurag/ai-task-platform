@@ -5,26 +5,11 @@ import { AuthContext } from '../context/AuthContext';
 const API_URL = import.meta.env.VITE_API_URL || 'https://ai-task-backend-xt0g.onrender.com/api';
 
 const Dashboard = () => {
-  const { logout } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
   const [inputText, setInputText] = useState('');
   const [agent, setAgent] = useState('openai');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    return saved ? saved === 'dark' : true;
-  });
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.body.classList.remove('light-mode');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.body.classList.add('light-mode');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDarkMode]);
 
   const fetchTasks = async () => {
     try {
@@ -91,25 +76,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--color-bg1)' }}>
-      {/* Navigation Bar */}
-      <nav style={{ padding: '15px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(10px)', borderBottom: '1px solid var(--glass-border)', position: 'sticky', top: 0, zIndex: 100 }}>
-        <h2 style={{ textShadow: '0 0 15px rgba(143,148,251,0.5)', display: 'flex', alignItems: 'center', gap: '10px', margin: 0 }}>
-          <span style={{ fontSize: '1.5rem' }}>✨</span> AI Tasks
-        </h2>
-        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-          <button 
-            onClick={() => setIsDarkMode(!isDarkMode)} 
-            className="btn-primary" 
-            title="Toggle Theme"
-            style={{ padding: '8px 12px', background: 'transparent', border: '1px solid var(--primary)', borderRadius: '20px', color: 'var(--text-main)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, width: 'max-content' }}>
-            {isDarkMode ? '☀️' : '🌙'}
-          </button>
-          <button onClick={logout} className="btn-primary" style={{ padding: '8px 20px', width: 'max-content', background: 'transparent', border: '1px solid var(--accent)', color: 'var(--accent)', borderRadius: '20px', fontSize: '0.9rem', flexShrink: 0, whiteSpace: 'nowrap' }}>
-            Logout
-          </button>
-        </div>
-      </nav>
+    <div>
 
       {/* Hero Banner */}
       <div style={{ padding: '60px 20px', textAlign: 'center', animation: 'floatEntrance 0.8s ease-out' }}>
@@ -227,11 +194,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer style={{ marginTop: 'auto', padding: '30px', textAlign: 'center', borderTop: '1px solid var(--glass-border)', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-        <p>&copy; {new Date().getFullYear()} AI Tasks Platform. All Rights Reserved.</p>
-        <p style={{ marginTop: '5px' }}>Powered by advanced LLM Agents.</p>
-      </footer>
     </div>
   );
 };
