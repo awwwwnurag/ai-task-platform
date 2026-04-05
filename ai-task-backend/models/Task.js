@@ -12,7 +12,7 @@ const TaskSchema = new mongoose.Schema({
   },
   operation: {
     type: String,
-    enum: ['uppercase', 'lowercase', 'reverse string', 'word count'],
+    enum: ['uppercase', 'lowercase', 'reverse string', 'word count', 'ai_prompt'],
     required: true,
   },
   status: {

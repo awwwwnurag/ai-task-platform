@@ -12,7 +12,7 @@ exports.createTask = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Please provide title, input_text, and operation' });
     }
 
-    const validOperations = ['uppercase', 'lowercase', 'reverse string', 'word count'];
+    const validOperations = ['uppercase', 'lowercase', 'reverse string', 'word count', 'ai_prompt'];
     if (!validOperations.includes(operation)) {
       return res.status(400).json({ success: false, message: 'Invalid operation' });
     }
@@ -49,6 +49,28 @@ exports.getTasks = async (req, res) => {
     res.status(200).json({
       success: true,
       data: tasks
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Delete a task
+// @route   DELETE /api/tasks/:id
+// @access  Private
+exports.deleteTask = async (req, res) => {
+  try {
+    const task = await Task.findOne({ _id: req.params.id, user: req.user._id });
+    
+    if (!task) {
+      return res.status(404).json({ success: false, message: 'Task not found' });
+    }
+
+    await task.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      data: {}
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

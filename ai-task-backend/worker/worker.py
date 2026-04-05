@@ -60,6 +60,9 @@ def process_task(task_data):
             result = input_text[::-1]
         elif operation == "word count":
             result = len(input_text.split())
+        elif operation == "ai_prompt":
+            time.sleep(2) # Simulate AI processing time
+            result = f"AI Output generated for: {input_text}"
         else:
             raise ValueError(f"Unknown operation: {operation}")
             
