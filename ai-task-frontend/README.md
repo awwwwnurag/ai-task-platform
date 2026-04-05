@@ -7,4 +7,4 @@ To run specifically just the local frontend organically:
 npm install
 npm run dev
 ```
-Navigate natively to `http://localhost:5173` referencing backend node triggers mapping dynamically against `http://localhost:5000/api`.
+Navigate natively to `http://localhost:5173` referencing backend node triggers mapping dynamically against `https://ai-task-backend-xt0g.onrender.com/api`.

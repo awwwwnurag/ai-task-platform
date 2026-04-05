@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import TaskModal from '../components/TaskModal';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://ai-task-backend-xt0g.onrender.com/api';
 
 const Dashboard = () => {
   const { logout } = useContext(AuthContext);
