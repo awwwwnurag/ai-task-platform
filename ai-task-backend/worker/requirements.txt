@@ -1,3 +1,7 @@
 pymongo
 redis
 python-dotenv
+openai
+anthropic
+google-generativeai
+groq
