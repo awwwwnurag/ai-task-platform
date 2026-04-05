@@ -155,8 +155,11 @@ def run_dummy_server():
             self.send_response(200)
             self.end_headers()
             self.wfile.write(b"Worker is running")
-    server = HTTPServer(('0.0.0.0', port), DummyHandler)
-    server.serve_forever()
+    try:
+        server = HTTPServer(('0.0.0.0', port), DummyHandler)
+        server.serve_forever()
+    except OSError as e:
+        print(f"Dummy server skipped: {e} (Expected during local development if port is busy)")
 
 def main():
     print("Python Worker started. Listening on 'ai-task-queue'...")
