@@ -102,10 +102,10 @@ const Dashboard = () => {
             onClick={() => setIsDarkMode(!isDarkMode)} 
             className="btn-primary" 
             title="Toggle Theme"
-            style={{ padding: '8px 12px', background: 'transparent', border: '1px solid var(--primary)', borderRadius: '20px', color: 'var(--text-main)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            style={{ padding: '8px 12px', background: 'transparent', border: '1px solid var(--primary)', borderRadius: '20px', color: 'var(--text-main)', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, width: 'max-content' }}>
             {isDarkMode ? '☀️' : '🌙'}
           </button>
-          <button onClick={logout} className="btn-primary" style={{ padding: '8px 20px', width: 'auto', background: 'transparent', border: '1px solid var(--accent)', color: 'var(--accent)', borderRadius: '20px', fontSize: '0.9rem' }}>
+          <button onClick={logout} className="btn-primary" style={{ padding: '8px 20px', width: 'max-content', background: 'transparent', border: '1px solid var(--accent)', color: 'var(--accent)', borderRadius: '20px', fontSize: '0.9rem', flexShrink: 0, whiteSpace: 'nowrap' }}>
             Logout
           </button>
         </div>
