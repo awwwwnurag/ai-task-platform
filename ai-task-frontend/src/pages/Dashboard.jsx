@@ -55,10 +55,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', padding: '20px' }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-        <h2>AI Tasks Dashboard</h2>
-        <button onClick={logout} style={{ background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s' }} onMouseOver={(e)=>e.target.style.background='var(--surface-glass)'} onMouseOut={(e)=>e.target.style.background='transparent'}>Logout</button>
+    <div style={{ minHeight: '100vh', padding: '20px', overflow: 'hidden' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 40px', maxWidth: '1300px', margin: '0 auto', animation: 'slideInRight 0.8s ease-out' }}>
+        <h2 style={{ textShadow: '0 0 15px rgba(143,148,251,0.5)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{ fontSize: '1.5rem' }}>✨</span> AI Tasks
+        </h2>
+        <button onClick={logout} className="btn-primary" style={{ padding: '8px 24px', width: 'auto', background: 'transparent', border: '1px solid var(--primary)', borderRadius: '20px' }}>Logout</button>
       </header>
       
       <div className="dashboard-container">
@@ -104,11 +106,11 @@ const Dashboard = () => {
             {tasks.length === 0 ? (
               <p className="text-muted">No tasks created yet.</p>
             ) : (
-              tasks.map(task => (
+              tasks.map((task, i) => (
                 <div 
                   key={task._id} 
-                  className="glass-panel" 
-                  style={{ padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
+                  className="glass-panel task-item" 
+                  style={{ padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', animationDelay: `${i * 0.05}s` }}
                   onClick={() => setSelectedTask(task)}
                 >
                   <div>
